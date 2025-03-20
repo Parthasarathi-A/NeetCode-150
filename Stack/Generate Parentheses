@@ -1,0 +1,63 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String>ans=new ArrayList<>();
+        backtrack(ans, new StringBuilder(), 0, 0, n);
+        return ans;
+    }
+    private void backtrack(List<String> ans, StringBuilder curr, int open, int close, int max){
+        if(curr.length()==max*2){
+            ans.add(curr.toString());
+            return;
+        }
+        if(open<max){
+            curr.append("(");
+            backtrack(ans, curr, open+1, close, max);
+            curr.deleteCharAt(curr.length()-1);
+        }
+        if(close<open){
+            curr.append(")");
+            backtrack(ans, curr, open, close+1, max);
+            curr.deleteCharAt(curr.length()-1);
+        }
+    }
+}
+
+
+
+
+/*
+
+1️⃣ Understanding the Problem:
+
+We need to generate all valid combinations of n pairs of parentheses.
+A valid combination means every ( must have a matching ), and ) should never appear before its matching (.
+2️⃣ Using Backtracking:
+
+Backtracking is a technique where we explore all possible choices, but if a choice doesn’t lead to a valid solution, we undo it and try another path.
+In this problem, we use recursive function calls to explore all possible placements of ( and ).
+3️⃣ Key Constraints:
+
+We can add ( only if open < n (i.e., we haven’t placed all n opening brackets).
+We can add ) only if close < open (i.e., there are unmatched ( left to close).
+4️⃣ Implementation Steps:
+
+Start with an empty StringBuilder (curr).
+Recursively add ( if open < n.
+Recursively add ) if close < open.
+When the length of curr becomes 2 * n, add it to the answer list (ans).
+Use backtracking (curr.deleteCharAt(curr.length() - 1)) to remove the last added character and explore other possible sequences.
+
+
+Backtracking Explanation in Detail:
+
+📌 Why Backtracking?
+Backtracking helps explore all valid sequences without manually generating every possibility. Instead of brute-forcing every permutation and then filtering valid ones, we only generate valid sequences directly.
+
+📌 How Backtracking Works in This Code?
+
+At each step, we add either ( or ) and call the function recursively.
+Once a valid sequence is formed (curr.length() == 2 * n), we add it to ans.
+Then, we backtrack by removing the last character (curr.deleteCharAt(curr.length() - 1)) and trying another possibility.
+This ensures that every function call represents a state, and we explore all valid states efficiently.
+
+*/
