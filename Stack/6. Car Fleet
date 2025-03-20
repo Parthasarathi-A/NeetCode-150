@@ -39,6 +39,9 @@ Each car has a specific speed, and all cars move toward a target distance.
 
 Step 1: Store the Car Information
 Since each car has both a position and a speed, we store them in a 2D array.
+
+We store position to sort cars based on their starting point (from farthest to nearest) and time-to-target to determine if a car will catch up to the previous fleet. This helps in efficiently counting the number of fleets.
+
 We also calculate the time each car takes to reach the target using:
 
 time = target − position/speed
