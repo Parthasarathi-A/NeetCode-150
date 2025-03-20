@@ -1,0 +1,55 @@
+class Solution {
+    public boolean isValid(String s) {
+        int n = s.length();
+        Stack<Character> st = new Stack<>();
+        
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (ch == '{' || ch == '(' || ch == '[') {
+                st.push(ch);
+            } else {
+                if (st.isEmpty()) return false;
+                char top = st.pop();
+                if ((ch == ')' && top == '(') ||  (ch == ']' && top == '[') ||  (ch == '}' && top == '{')) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+        
+        return st.isEmpty();
+    }
+}
+
+
+
+/*
+
+1️⃣ Understanding the Problem:
+
+We need to check if a given string s consisting of {}, (), [] is valid.
+A string is valid if:
+Every opening bracket has a corresponding closing bracket.
+Brackets are closed in the correct order (i.e., "{[()]}" is valid, but "{[(])}" is not).
+2️⃣ Using a Stack:
+
+A stack is used because it follows Last In, First Out (LIFO) order.
+When we encounter an opening bracket, we push it onto the stack.
+When we encounter a closing bracket, we:
+Check if the stack is empty (if it is, return false, as there's no opening bracket for it).
+Pop the top and check if it matches the correct opening bracket.
+If it does not match, return false.
+3️⃣ Implementation Steps:
+
+Initialize a stack st to store opening brackets.
+Iterate over each character ch in the string:
+If ch is {, [, or (, push it onto the stack.
+If ch is }, ], or ), check:
+If the stack is empty, return false (no matching opening bracket).
+Pop the top element and check if it matches the correct opening bracket.
+If it doesn't match, return false.
+After the loop, return true if the stack is empty, otherwise return false (extra unmatched opening brackets left).
+
+
+*/
