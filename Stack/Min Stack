@@ -29,3 +29,24 @@ class MinStack {
         return minstack.peek();
     }
 }
+
+
+/* 
+
+1️⃣ Use two stacks: one (stack) to store all elements and another (minstack) to track the minimum values.
+
+2️⃣ When pushing a value, add it to stack. If minstack is empty or the value is less than or equal to minstack.peek(), push it to minstack as well.
+
+3️⃣ When popping, remove the top element from stack. If the popped value is the same as minstack.peek(), pop it from minstack too.
+
+4️⃣ The top() function returns the top element of stack.
+
+5️⃣ The getMin() function returns the top element of minstack, which is always the minimum element in stack.
+
+6️⃣ minstack ensures that retrieving the minimum element happens in O(1) time.
+
+7️⃣ The algorithm works efficiently because minstack only stores necessary minimum values instead of all elements.
+
+8️⃣ This approach ensures that push(), pop(), top(), and getMin() all run in constant time O(1).
+
+*/
