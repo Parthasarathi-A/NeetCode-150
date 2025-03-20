@@ -27,50 +27,45 @@ public class Solution {
 
 /*
 
-🔍 Understanding the Problem
-We have cars starting from different positions, each moving at its own speed towards a target point.
-The rules are:
+🔹 Understanding the Problem Statement
+We are given N cars, each starting at a different position along a road.
+Each car has a specific speed, and all cars move toward a target distance.
 
-A car cannot overtake another car.
-If a faster car reaches a slower car before the target, they merge and move together at the slower car’s speed.
-Our goal is to count the number of separate fleets that reach the target.
+👉 A car fleet is a group of cars that move together at the same speed.
+👉 A car cannot overtake another car but can catch up and form a fleet.
+👉 We need to count the number of fleets that will reach the target.
 
-🧠 Thought Process to Solve
-To figure this out, we need to determine:
+🔹 Step-by-Step Thought Process to Solve the Problem
 
-How long each car takes to reach the target.
-Whether cars will merge or stay separate.
-We will do this step by step:
+Step 1: Store the Car Information
+Since each car has both a position and a speed, we store them in a 2D array.
+We also calculate the time each car takes to reach the target using:
 
-🛠️ Step 1: Calculate Time to Reach Target
-Each car’s time to reach the target is calculated as:
+time = target − position/speed
 
-time = target−position[𝑖] / speed[𝑖]​
  
-This tells us when a car would reach the target if it didn’t merge with another car.
+The array structure will look like:
 
-📌 Step 2: Sort Cars by Position
-We sort cars from farthest to closest to the target.
+[position, time]
 
-This way, we process the cars in the order they move and can check if a car catches up to another.
-If a slower car is ahead of a faster one, they will form a fleet and move together.
+Step 2: Sort Cars by Position in Descending Order
+We sort cars based on their position (furthest car first).
+This ensures we process the cars from right to left on the road.
 
-🔄 Step 3: Process Cars One by One
-Now, we loop through the cars (from farthest to closest):
+Sort Cars by Position (Descending Order)
 
-If a car’s time is greater than the one before it → it forms a new fleet.
-Otherwise, it joins the previous fleet.
+Sort the array based on position so that we process rightmost cars first.
 
-✅ Final Answer
-The number of times a car does not catch up to the previous one tells us the number of fleets.
 
-📝 Summary
-Calculate time for each car to reach the target.
-Sort cars by position from farthest to closest.
-Loop through cars:
-If a car’s time is more than the previous one, it forms a new fleet.
-Otherwise, it joins the previous fleet.
-Return the number of fleets.
+Step 3: Count Fleets Using a Stack-Like Approach
 
+Iterate through sorted cars:
+If a car takes more time than the last recorded fleet time → New fleet is formed.
+If a car takes less or equal time, it joins the previous fleet.
+Keep track of the previous fleet’s time-to-target.
+
+Step 4: Return the Fleet Count
+
+The total number of fleets formed is the final answer.
 
 */
