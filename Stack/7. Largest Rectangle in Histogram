@@ -1,0 +1,56 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        Stack<Integer> stack = new Stack<>();
+        int max=0;
+        for(int i=0;i<=n;i++){
+            int currentheight;
+            if(i==n){
+                currentheight=0;
+            }
+            else{
+                currentheight=heights[i];
+            }
+            while(!stack.isEmpty() && currentheight < heights[stack.peek()]){
+                int height = heights[stack.pop()];
+                int width;
+                if(stack.isEmpty()){
+                    width=i;
+                }
+                else{
+                    width = i - stack.peek() - 1;
+                }
+                max=Math.max(max, height*width);
+            }
+            stack.push(i);
+        }
+        return max;
+    }
+}
+
+
+/*
+
+Understanding the problem: We need to find the largest rectangle that can be formed using the given bar heights.
+
+Using a Stack: We use a stack to keep track of bar indices where heights are in increasing order.
+
+Iterating through heights: We loop from i = 0 to n, where n is the number of bars. We also process an extra index n with height 0 to ensure all bars are popped and calculated.
+
+Why i == n then currentHeight = 0?
+
+This forces the stack to process all remaining bars at the end, ensuring no heights are left unchecked.
+Popping from stack: If the current bar is shorter than the bar at stack.peek(), we pop the stack and calculate the area.
+
+Calculating width:
+
+If the stack is empty after popping → width = i
+Else, width = i - stack.peek() - 1 (distance between current and previous stored index)
+Updating max area: We multiply the height of the popped bar with the calculated width and update maxArea if this new area is larger.
+
+Pushing index to stack: If the current bar is taller than the previous, push its index to maintain increasing order.
+
+Final result: After iterating through all bars, maxArea contains the largest rectangle.
+
+
+*/
