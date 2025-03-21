@@ -1,0 +1,60 @@
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int left = 1, right =1;
+        for(int pile : piles){
+            right = Math.max(right, pile);
+        }
+
+        while(left < right){
+
+            int mid = (right+left)/2;
+            if(canFinish(piles, mid, h)){
+                right = mid;
+            }
+            else{
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+    private boolean canFinish(int [] piles, int speed, int h){
+        int hours = 0;
+        for(int pile : piles){
+            hours += Math.ceil((double)pile/speed);
+        }
+        if (hours <= h) {
+            return true;  // Koko can finish within the allowed time
+        } 
+        else {
+            return false; // Koko takes more time than allowed
+        }
+    }
+}
+
+
+
+/*
+
+1️⃣ Understanding the Problem:
+
+Koko needs to eat all bananas in h hours. The speed K (bananas per hour) should be minimized.
+The more K is, the fewer hours it takes. The smaller K is, the more hours it takes.
+2️⃣ Using Binary Search:
+
+The minimum possible speed is 1 (slowest eating speed).
+The maximum possible speed is the largest pile in piles (fastest possible speed).
+We perform binary search between 1 and the max pile size.
+3️⃣ Helper Function (canFinish)
+
+This function checks if Koko can finish all bananas at a given speed.
+It calculates the total hours needed using Math.ceil(pile / speed) because Koko can’t eat half a pile.
+4️⃣ Binary Search Logic (while loop)
+
+We try different speeds using mid = (left + right) / 2.
+If Koko can finish at speed mid, we reduce the search range (right = mid) to find a smaller speed.
+If Koko can't finish, we increase the search range (left = mid + 1).
+5️⃣ Why Return left?
+
+The loop stops when left == right, meaning we found the smallest speed that allows Koko to finish in h hours.
+
+*/
