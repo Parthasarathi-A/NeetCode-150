@@ -1,0 +1,104 @@
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        int start = 0;
+        int end = (n * m) -1;
+        while(start <= end){
+            int mid = (start+end)/2;
+            int midval = matrix[mid/n][mid%n];
+
+            if(midval==target){
+                return true;
+            }
+            else if(midval<target){
+                start = mid+1;
+            }
+            else if(midval>target){
+                end=mid-1;
+            }
+        }
+        return false;
+    }
+}
+
+
+/*
+
+1️⃣ Understanding the Matrix: The matrix is sorted row-wise, so we can treat it as a 1D sorted array and apply binary search.
+
+2️⃣ Declaring Dimensions: We first declare m (number of rows) before n (number of columns) because matrix.length gives rows first, ensuring correct indexing.
+
+3️⃣ Binary Search Setup: We set start = 0 and end = (m * n) - 1 to cover all elements in a single search space.
+
+4️⃣ Calculating Mid and Value: The middle index is mid = (start + end) / 2. Since the matrix is 2D, the row is mid / n, and the column is mid % n, ensuring we access the correct element.
+
+5️⃣ Binary Search Conditions: If midval == target, return true. If midval < target, move start forward. If midval > target, move end backward.
+
+6️⃣ Final Decision: If the loop ends without finding the target, return false.
+
+This structured approach ensures an efficient O(log(m*n)) search in a 2D matrix using binary search.
+
+
+NOTE:
+
+Let's go step by step to understand why we use mid / n for the row index and mid % n for the column index when searching in a 2D matrix using Binary Search.
+
+Understanding the Matrix Representation
+A 2D matrix is stored in row-major order, meaning that all elements are stored row by row in memory, like a flattened 1D array.
+
+For example, consider a 3×4 matrix:
+
+matrix = [
+    [ 1,  2,  3,  4 ],
+    [ 5,  6,  7,  8 ],
+    [ 9, 10, 11, 12 ]
+]
+Here:
+
+m = 3 (number of rows)
+n = 4 (number of columns)
+Total elements = m × n = 3 × 4 = 12
+
+If we flatten the matrix into a 1D array, it would look like this:
+
+
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+The index 0 to 3 corresponds to the 1st row.
+The index 4 to 7 corresponds to the 2nd row.
+The index 8 to 11 corresponds to the 3rd row.
+Now, when we apply Binary Search, we consider the entire matrix as a 1D sorted array (since each row is sorted and rows are placed sequentially).
+
+How We Calculate midValue?
+Binary Search works on a 1D index range (start to end). The midpoint (mid) is calculated as:
+
+mid = (start + end) / 2
+But mid is an index in the flattened 1D array. To convert this into a 2D index (row, column), we use:
+
+1️⃣ Finding the Row Index
+To get the row number, we use:
+
+row = mid / n
+Why?
+
+Each row contains n elements.
+If mid = 7, then 7 / 4 = 1 (integer division) means the index is in row 1 (2nd row, zero-based index).
+
+2️⃣ Finding the Column Index
+To get the column number, we use:
+
+column = mid % n
+
+Why?
+
+The remainder (%) gives the position inside the row.
+If mid = 7, then 7 % 4 = 3, meaning the element is in column 3.
+Thus, we access the matrix element as:
+
+
+midValue = matrix[mid / n][mid % n]
+
+
+*/
