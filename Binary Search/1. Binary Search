@@ -1,0 +1,45 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return -1; // Target not found
+    }
+}
+
+/*
+
+1. Understand the problem: We are given a sorted array nums and need to find the index of target. If not found, return -1.
+
+2. Initialize pointers:
+
+l (left pointer) at the start (0).
+r (right pointer) at the end (n-1).
+
+3. Binary Search loop:
+
+Find the middle index using mid = (l + r) / 2.
+Compare nums[mid] with target:
+✅ If nums[mid] == target, return mid (found!).
+🔼 If nums[mid] < target, move l to mid + 1 (search right half).
+🔽 If nums[mid] > target, move r to mid - 1 (search left half).
+
+4. Loop continues until l crosses r. If target is not found, return -1.
+
+5. Why (r + l) / 2?
+
+It finds the middle element efficiently without checking all elements.
+This approach ensures an O(log n) time complexity, making it very efficient for large sorted arrays. 🚀
+
+*/
