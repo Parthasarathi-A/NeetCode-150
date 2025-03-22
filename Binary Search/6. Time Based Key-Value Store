@@ -1,0 +1,97 @@
+class TimeMap {
+    Map<String, TreeMap<Integer, String>> map = new HashMap<>();
+
+    public TimeMap() {
+
+    }
+
+    public void set(String key, String value, int timestamp) {
+        if (!map.containsKey(key)) {
+            map.put(key, new TreeMap<>());
+        }
+        map.get(key).put(timestamp, value);
+    }
+
+    public String get(String key, int timestamp) {
+        TreeMap<Integer, String> treeMap = map.get(key);
+        if (treeMap == null) {
+            return "";
+        }
+
+        Map.Entry<Integer, String> entry = treeMap.floorEntry(timestamp);
+        if (entry == null) {
+            return "";
+        } else {
+            return entry.getValue();
+        }
+    }
+}
+
+
+
+/*
+
+
+
+💡 Problem Understanding
+
+We need to design a time-based key-value store where:
+
+We store values with timestamps using set(key, value, timestamp).
+We retrieve values using get(key, timestamp), returning the latest value at or before the given timestamp.
+
+🔑 Key Takeaways
+Use HashMap<String, TreeMap<Integer, String>> → Stores key-value pairs efficiently.
+Use TreeMap.floorEntry(timestamp) → Finds the closest past value.
+Check if the key exists before accessing its values.
+If no valid timestamp is found, return "".
+
+
+📝 Step-by-Step Approach
+
+Let's break it down from scratch, step by step.
+
+Step 1: Choosing the Right Data Structure
+
+We need a key-value store.
+
+✅ Use a Map<String, TreeMap<Integer, String>>.
+
+Key (e.g., "fruit")
+
+Value → A TreeMap<Integer, String> (sorted map)
+
+Key: Timestamp (e.g., 1, 3, 5)
+
+Value: The stored value (e.g., "apple", "banana", "cherry")
+
+📌 Example:
+
+"fruit" -> { 1 -> "apple", 3 -> "banana", 5 -> "cherry" }
+
+"fruit" stores different values at different timestamps.
+
+Step 2: Implementing set(key, value, timestamp)
+If the key does not exist in map, create a new TreeMap for it.
+Store (timestamp, value) in the TreeMap.
+
+Example:
+set("fruit", "apple", 1);  // fruit -> { 1 -> "apple" }
+set("fruit", "banana", 3); // fruit -> { 1 -> "apple", 3 -> "banana" }
+set("fruit", "cherry", 5); // fruit -> { 1 -> "apple", 3 -> "banana", 5 -> "cherry" }
+
+🚀 Now, "fruit" has timestamps with corresponding values.
+
+Step 3: Implementing get(key, timestamp)
+Find the largest timestamp ≤ given timestamp.
+Use floorEntry(timestamp) to get the closest past value.
+If no valid timestamp exists, return "".
+
+🔹 Example Calls & Dry Run
+
+get("fruit", 4); // Finds 3 -> "banana" (floorEntry of 4 is 3)
+get("fruit", 5); // Finds 5 -> "cherry" (floorEntry of 5 is 5)
+get("fruit", 2); // Finds 1 -> "apple" (floorEntry of 2 is 1)
+get("fruit", 0); // No valid entry, returns ""
+
+*/
