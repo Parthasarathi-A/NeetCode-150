@@ -1,0 +1,36 @@
+class Solution {
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        int l = 0;
+        int r = n-1;
+
+        while(l<r){
+
+            int mid = (l+r)/2;
+            
+            if(nums[mid]<=nums[r]){
+                r = mid;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return nums[l];
+    }
+}
+
+/*
+
+The array is sorted but rotated at some pivot, meaning the smallest element is the rotation point.
+
+We use binary search to efficiently find the minimum instead of checking each element one by one.
+
+Start with low = 0 and high = n - 1. The middle element (mid) helps decide which half to search.
+
+If nums[mid] > nums[high], the minimum must be in the right half (shift low to mid + 1).
+
+Otherwise, the minimum is in the left half or at mid (shift high to mid).
+
+When low == high, we have found the minimum element, which is at nums[low]. 🚀
+
+*/
