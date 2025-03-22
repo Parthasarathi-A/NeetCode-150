@@ -1,0 +1,59 @@
+class Solution {
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        int p1 = 0, p2 = 0;
+        ArrayList<Integer> res = new ArrayList<>();
+        while (p1 < n && p2 < m) {
+            if (nums1[p1] <= nums2[p2]) {
+                res.add(nums1[p1]);
+                p1++;
+            } else {
+                res.add(nums2[p2]);
+                p2++;
+            }
+        }
+        while (p1 < n) {
+            res.add(nums1[p1]);
+            p1++;
+        }
+        while (p2 < m) {
+            res.add(nums2[p2]);
+            p2++;
+        }
+        int size=res.size();
+        int mid=size/2;
+        double ans=0;
+        if (size == 1) {
+            return res.get(0);
+        }
+        else if(size%2==0){
+            ans = (res.get(mid - 1) + res.get(mid)) / 2.0;
+        }
+        else{
+            ans=res.get(mid);
+        }
+        return ans;
+    }
+}
+
+
+
+/*
+
+We are given two sorted arrays and need to find the median of the merged sorted array.
+
+Use two pointers (p1 for nums1, p2 for nums2) to merge both arrays into a new list res, just like in merge step of Merge Sort.
+
+Compare elements at p1 and p2 and add the smaller one to res, moving the corresponding pointer forward.
+
+After merging, if one array has remaining elements, add them directly to res.
+
+Compute the median:
+
+If the total size is odd, return the middle element.
+If the total size is even, return the average of the two middle elements.
+
+This approach efficiently merges and finds the median in O(n + m) time complexity. 🚀
+
+*/
