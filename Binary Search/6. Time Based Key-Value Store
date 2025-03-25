@@ -87,6 +87,12 @@ Find the largest timestamp ≤ given timestamp.
 Use floorEntry(timestamp) to get the closest past value.
 If no valid timestamp exists, return "".
 
+Map.Entry<Integer, String> entry = treeMap.floorEntry(timestamp);
+
+This line checks if there is any timestamp in the TreeMap that is less than or equal to the given timestamp.
+
+If such a timestamp exists, entry will store that key-value pair (timestamp, value).
+If no such timestamp exists, entry will be null.
 🔹 Example Calls & Dry Run
 
 get("fruit", 4); // Finds 3 -> "banana" (floorEntry of 4 is 3)
