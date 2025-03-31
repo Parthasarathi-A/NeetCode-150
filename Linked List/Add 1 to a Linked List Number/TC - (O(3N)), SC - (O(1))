@@ -1,0 +1,67 @@
+class Solution {
+    private Node reverse(Node head) {
+        Node prev = null, curr = head;
+        while (curr != null) {
+            Node nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+        return prev;
+    }
+
+    public Node addOne(Node head) {
+        head = reverse(head);  // Step 1: Reverse the list
+
+        Node temp = head;
+        int carry = 1;  // Step 2: Start with carry 1
+
+        while (temp != null) {
+            temp.data += carry;
+            if (temp.data < 10) {
+                carry = 0;
+                break;
+            }
+            temp.data = 0;
+            if (temp.next == null && carry == 1) {
+                temp.next = new Node(1);  // If carry remains at last node, add new node
+                carry = 0;
+                break;
+            }
+            temp = temp.next;
+        }
+
+        head = reverse(head);  // Step 3: Reverse back to original order
+        return head;
+    }
+}
+
+
+/*
+
+Approach to Solve the Problem (Adding 1 to a Linked List Number)
+Reverse the Linked List: Since we are adding 1 to the last node, reversing makes it easier to process the number from the least significant digit (rightmost) to the most significant.
+
+Example: 1 → 4 → 9 becomes 9 → 4 → 1.
+
+Initialize Carry as 1: Since we are adding 1, we start with carry = 1.
+
+Traverse the List and Add Carry:
+
+temp.data += carry; increases the value of the current node.
+
+If temp.data < 10, the carry is consumed, so we set carry = 0 and break since no further changes are needed.
+
+If temp.data == 10, we set temp.data = 0 and carry remains 1 to be added to the next node.
+
+Handle Last Node Carry:
+
+If we reach the last node (temp.next == null) and carry is still 1, we create a new node with value 1 and attach it.
+
+We set carry = 0 and break as we are done.
+
+Reverse the Linked List Back: After the addition, we reverse the list again to restore the original order.
+
+Example: 0 → 5 → 1 (after addition) becomes 1 → 5 → 0.
+
+*/
