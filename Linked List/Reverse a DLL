@@ -27,5 +27,23 @@ public class Solution {
         }
         return prev;
     }
-
 }
+
+
+/*
+
+Approach to Reverse a Doubly Linked List
+
+Initialization: Start with three pointers - prev (set to null), temp (set to head), and front (used to temporarily store the next node).
+
+Traversal: Iterate through the list using the temp pointer until it becomes null.
+
+Swapping: For each node, update the next pointer to point to the prev node and the prev pointer to point to the front node (i.e., the original next node).
+
+Advancing Pointers: Move the prev pointer to the current temp node and advance temp to front.
+
+Reversal Complete: Once the loop completes, the prev pointer will be at the new head of the reversed list.
+
+Return the New Head: Return the prev pointer, which now points to the head of the reversed list.
+
+*/
