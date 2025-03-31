@@ -1,0 +1,151 @@
+
+// User function Template for Java
+
+/*
+class Node
+{
+    int data;
+    Node next;
+    Node(int data)
+    {
+        this.data = data;
+        next = null;
+    }
+}
+*/
+class Solution {
+    // Function to sort a linked list of 0s, 1s, and 2s.
+    static Node segregate(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        
+        // Dummy Nodes
+        Node zerohead = new Node(-1);
+        Node onehead = new Node(-1);
+        Node twohead = new Node(-1);
+        
+        // Pointers for traversal
+        Node zero = zerohead;
+        Node one = onehead;
+        Node two = twohead;
+        
+        Node temp = head;
+        
+        // Separating nodes into three lists
+        while (temp != null) {
+            if (temp.data == 0) {
+                zero.next = temp;
+                zero = zero.next;
+            } else if (temp.data == 1) {
+                one.next = temp;
+                one = one.next;
+            } else {
+                two.next = temp;
+                two = two.next;
+            }
+            temp = temp.next;
+        }
+        
+        // Properly connecting the three lists
+        if (onehead.next != null) {
+            zero.next = onehead.next;
+        } else {
+            zero.next = twohead.next;
+        }
+
+        one.next = twohead.next; // Ensuring the 1s are linked to 2s
+        two.next = null; // Mark the end of the list to prevent infinite loops
+
+        // Return the new head (skip dummy node)
+        return zerohead.next;
+    }
+}
+
+
+/*
+
+Approach to Sort a Linked List of 0s, 1s, and 2s
+Create three dummy nodes (zerohead, onehead, twohead) to hold separate lists for 0s, 1s, and 2s. These are placeholders that help us easily merge the lists later.
+
+Use three pointers (zero, one, two) to track the last node of each list as we traverse the original list.
+
+Traverse the linked list and place each node in the correct list using if-else:
+
+If data == 0 → Attach the node to the zero list (zero.next = temp).
+
+Else if data == 1 → Attach to the one list (one.next = temp).
+
+Else (data == 2) → Attach to the two list (two.next = temp).
+
+Merge the three lists:
+
+If the one list is non-empty, connect zero to onehead.next, otherwise connect zero to twohead.next.
+
+Connect one to twohead.next so 1s are followed by 2s.
+
+Set two.next = null to prevent infinite loops.
+
+Return zerohead.next (skipping the dummy node) as the new head of the sorted list
+
+
+##############
+Dry Run Example
+Input Linked List:
+1 → 2 → 0 → 1 → 2 → 0
+
+Step-by-Step Execution:
+Initialize three dummy nodes: zerohead(-1), onehead(-1), twohead(-1).
+
+zero, one, and two pointers initially point to these dummy nodes.
+
+Traverse the linked list:
+
+First node (1):
+
+Attach to one list → onehead → 1
+
+Move one pointer forward.
+
+Second node (2):
+
+Attach to two list → twohead → 2
+
+Move two pointer forward.
+
+Third node (0):
+
+Attach to zero list → zerohead → 0
+
+Move zero pointer forward.
+
+Fourth node (1):
+
+Attach to one list → onehead → 1 → 1
+
+Move one pointer forward.
+
+Fifth node (2):
+
+Attach to two list → twohead → 2 → 2
+
+Move two pointer forward.
+
+Sixth node (0):
+
+Attach to zero list → zerohead → 0 → 0
+
+Move zero pointer forward.
+
+Merge the three lists:
+
+Connect zero list (0 → 0) to one list (1 → 1).
+
+Connect one list (1 → 1) to two list (2 → 2).
+
+Set two.next = null to prevent loops.
+
+Final Sorted List:
+0 → 0 → 1 → 1 → 2 → 2
+
+*/
