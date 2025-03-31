@@ -1,0 +1,91 @@
+
+
+/*
+class Node{
+    int data;
+    Node next;
+
+    Node(int x){
+        data = x;
+        next = null;
+    }
+}
+*/
+
+class Solution {
+    public Node addOne(Node head) {
+        int carry = helper(head);
+        
+        if(carry==1){
+            Node newnode=new Node(1);
+            newnode.next=head;
+            head=newnode;
+        }
+        return head;
+    }
+    private int helper(Node temp){
+        if(temp==null){
+            return 1;
+        }
+        int carry=helper(temp.next);
+        temp.data+=carry;
+        if(temp.data<10){
+            return 0;
+        }
+        temp.data=0;
+        return 1;
+        
+    }
+}
+
+
+/*
+
+Step-by-Step Execution (Recursive Flow & Backtracking)
+Recursive Call Until the Last Node
+
+The function helper(temp) keeps calling itself until it reaches null (end of the list).
+
+At this point, we return 1, meaning we are adding 1 to the last node.
+
+Backtracking & Carry Propagation
+
+As recursion returns back, each node gets its data updated by adding the carry.
+
+If temp.data < 10, we return 0 (no further carry needed).
+
+If temp.data == 10, we set temp.data = 0 and return 1 to propagate the carry to the previous node.
+
+Handle Carry at the Head
+
+If the carry remains 1 after all updates, we create a new node at the front with value 1.
+
+Example Dry Run (Recursive Calls & Backtracking)
+Input:
+head -> 1 -> 4 -> 9 (represents 149)
+
+Recursive Calls (Moving Forward):
+helper(1) → calls helper(4)
+
+helper(4) → calls helper(9)
+
+helper(9) → calls helper(null) → returns 1 (because we need to add 1)
+
+Backtracking Steps (Updating Values & Carry):
+helper(9): temp.data = 9 + 1 = 10, so temp.data = 0, return 1
+
+helper(4): temp.data = 4 + 1 = 5, so return 0 (carry stops here)
+
+helper(1): temp.data remains 1 (no carry left)
+
+Final Linked List (Output):
+head -> 1 -> 5 -> 0 (150)
+
+Key Takeaways
+Recursion moves forward to the last node.
+
+Backtracking updates values and propagates the carry.
+
+If carry remains at the head, a new node is added.
+
+*/
