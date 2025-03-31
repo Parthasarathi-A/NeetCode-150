@@ -1,0 +1,119 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head==null || head.next==null){
+            return head;
+        }
+
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode evenhead = head.next;
+
+        while(even!=null && even.next!=null){
+            odd.next=odd.next.next;
+            even.next=even.next.next;
+
+            odd=odd.next;
+            even=even.next;
+        }
+        odd.next=evenhead;
+
+        return head;
+    }
+}
+
+
+/*
+
+Initialization: Check if the list is empty or has only one node. If so, return the head since no rearrangement is needed.
+
+Pointer Setup: Initialize three pointers - odd for the odd-indexed nodes, even for the even-indexed nodes, and evenhead to remember the start of the even nodes.
+
+Reason for evenhead: The evenhead pointer is crucial as it helps to reconnect the end of the odd-indexed nodes to the beginning of the even-indexed nodes after separation.
+
+Traversal and Separation: Use a while loop (while (even != null && even.next != null)) to ensure both the current even node and the next even node exist. This prevents null pointer exceptions.
+
+Reconnection: Inside the loop, update the next pointers to separate odd and even nodes. Move the odd and even pointers to their respective next nodes.
+
+Combine Lists: After exiting the loop, connect the last odd node to evenhead to merge the odd and even lists.
+
+Return the Modified List: Return the modified head, which now points to the rearranged list.
+
+
+
+let's break down how odd=odd.next and even=even.next work in the context of the linked list rearrangement.
+
+Initial Setup
+odd: Points to the head of the list (first node).
+even: Points to the second node in the list.
+evenhead: Keeps a reference to the start of the even-indexed nodes.
+Explanation of odd=odd.next and even=even.next
+First Iteration:
+
+Before the iteration:
+odd points to the first node.
+even points to the second node.
+Inside the loop:
+odd.next = odd.next.next;:
+This sets the next pointer of the first node (odd) to the third node (the next odd node).
+even.next = even.next.next;:
+This sets the next pointer of the second node (even) to the fourth node (the next even node).
+Moving pointers forward:
+odd = odd.next;:
+This moves the odd pointer to the third node, which is now the next odd node.
+even = even.next;:
+This moves the even pointer to the fourth node, which is now the next even node.
+Second Iteration:
+
+Before the iteration:
+odd points to the third node.
+even points to the fourth node.
+Inside the loop:
+odd.next = odd.next.next;:
+This sets the next pointer of the third node (odd) to the fifth node (the next odd node).
+even.next = even.next.next;:
+This sets the next pointer of the fourth node (even) to null, since there are no more even nodes.
+Moving pointers forward:
+odd = odd.next;:
+This moves the odd pointer to the fifth node, which is now the next odd node.
+even = even.next;:
+This moves the even pointer to null, since there are no more even nodes.
+After the loop:
+
+The loop exits because even is now null.
+odd.next = evenhead;:
+This connects the last odd node (fifth node) to the head of the even list, effectively merging the odd and even lists.
+Summary
+The odd=odd.next and even=even.next statements are used to move the odd and even pointers to their respective next odd and even nodes after adjusting the next pointers.
+This ensures that the list is traversed correctly and that the pointers always reference the next nodes in their respective sequences.
+
+Visual Representation:
+
+Original List: 1 -> 2 -> 3 -> 4 -> 5
+
+Iteration 1:
+odd points to 1, even points to 2
+odd.next = 3, even.next = 4
+odd = 3, even = 4
+
+Iteration 2:
+odd points to 3, even points to 4
+odd.next = 5, even.next = null
+odd = 5, even = null
+
+After Loop:
+odd.next = evenhead (2)
+
+Rearranged List: 1 -> 3 -> 5 -> 2 -> 4
+This approach efficiently separates the odd and even nodes and reconnects them correctly.
+
+*/
