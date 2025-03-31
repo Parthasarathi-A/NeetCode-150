@@ -1,0 +1,51 @@
+/*
+
+Explanation:
+
+https://takeuforward.org/data-structure/remove-n-th-node-from-the-end-of-a-linked-list/
+
+*/
+
+
+class Node {
+    public int data;
+    public Node next;
+
+    // Constructor for Node with data and next node
+    public Node(int data1, Node next1) {
+        data = data1;
+        next = next1;
+    }
+
+    // Constructor for Node with only data (next set to null)
+    public Node(int data1) {
+        data = data1;
+        next = null;
+    }
+}
+
+public class Main {
+    public static Node DeleteNthNodefromEnd(Node head, int N) {
+        // Create two pointers, fastp and slowp
+        Node fastp = head;
+        Node slowp = head;
+
+        // Move the fastp pointer N nodes ahead
+        for (int i = 0; i < N; i++)
+            fastp = fastp.next;
+
+        // If fastp becomes null, the Nth node from the end is the head
+        if (fastp == null)
+            return head.next;
+
+        // Move both pointers until fastp reaches the end
+        while (fastp.next != null) {
+            fastp = fastp.next;
+            slowp = slowp.next;
+        }
+
+        // Delete the Nth node from the end
+        slowp.next = slowp.next.next;
+        return head;
+    }
+}
