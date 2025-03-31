@@ -1,0 +1,20 @@
+public class Reverse {
+    public static Node reverseLinkedList(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node newHead = reverseLinkedList(head.next);
+        Node front = head.next;
+        front.next = head;
+        head.next = null;
+        return newHead;
+    }
+}
+
+
+/*
+
+Explanation:
+https://takeuforward.org/data-structure/reverse-a-linked-list/
+
+*/
