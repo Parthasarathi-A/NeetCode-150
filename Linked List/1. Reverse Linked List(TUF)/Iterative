@@ -1,0 +1,22 @@
+public class Solution{
+    public static ListNode solve(ListNode head){
+        ListNode temp = head;
+        ListNode prev = null;
+
+        while(temp != null){
+            ListNode front = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = front;
+        }
+        return prev;
+    }
+}
+
+
+/*
+
+Explanation:
+https://takeuforward.org/data-structure/reverse-a-linked-list/
+
+*/
