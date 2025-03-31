@@ -1,0 +1,37 @@
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        return slow;
+    }
+}
+
+/*
+
+Step-by-Step Execution
+
+Initialize Two Pointers:
+
+slow = head (moves one step per iteration).
+
+fast = head (moves two steps per iteration).
+
+Traverse the Linked List:
+
+While fast and fast.next exist:
+
+Move fast two steps ahead (fast = fast.next.next).
+
+Move slow one step ahead (slow = slow.next).
+
+Middle Node is Found:
+
+When fast reaches the end (null), slow is at the middle.
+
+Return slow, which represents the middle node of the list.
+
+*/
