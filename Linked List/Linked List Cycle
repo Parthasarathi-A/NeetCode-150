@@ -1,0 +1,48 @@
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if(slow==fast){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+/*
+
+#####################################################
+Explanation : https://takeuforward.org/data-structure/detect-a-cycle-in-a-linked-list/
+#####################################################
+
+When explaining why if (slow == fast) means a loop is detected, you should provide an intuitive understanding of the Tortoise and Hare (Floyd's Cycle Detection Algorithm).
+
+Here’s how you can explain it to an interviewer:
+
+Conceptual Explanation:
+We have two pointers:
+
+Slow pointer (slow) moves one step at a time.
+
+Fast pointer (fast) moves two steps at a time.
+
+If there is no loop, fast will eventually reach null, meaning we hit the end of the list.
+
+If there is a loop, the fast pointer will eventually catch up to the slow pointer.
+
+Why does if (slow == fast) indicate a loop?
+Think of it like two runners on a circular track:
+
+The fast runner (moving two steps) gains one step on the slow runner in each move.
+
+If they are in a loop, the fast runner will eventually "lap" the slow runner.
+
+At some point, fast and slow will be at the same node, proving a cycle exists.
+
+*/
