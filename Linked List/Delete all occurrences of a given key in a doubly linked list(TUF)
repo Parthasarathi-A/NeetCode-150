@@ -1,0 +1,50 @@
+class Solution {
+    static Node deleteAllOccurOfX(Node head, int x) {
+        Node temp = head;
+        
+        while (temp != null) {
+            if (temp.data == x) {
+                // If the node to be deleted is the head node
+                if (head == temp) {
+                    head = temp.next;
+                }
+                
+                // Update the next and prev pointers
+                Node nextNode = temp.next;
+                Node prevNode = temp.prev;
+                
+                if (nextNode != null) {
+                    nextNode.prev = prevNode;
+                }
+                if (prevNode != null) {
+                    prevNode.next = nextNode;
+                }
+                
+                // Move temp to the next node
+                temp = nextNode;
+            } else {
+                // Move to the next node
+                temp = temp.next;
+            }
+        }
+        return head;
+    }
+}
+
+/*
+
+Initialize a Pointer: Start by setting a pointer (temp) to the head of the list to traverse through the nodes.
+
+Check Each Node: For each node, check if its value matches the target value (x).
+
+Update Pointers: If a match is found, update the next pointer of the previous node (prev) and the prev pointer of the next node (next) to bypass the current node. This ensures the linked list remains connected after the deletion.
+
+Handle Head Node: If the node to be deleted is the head, update the head to the next node and ensure the new head's prev is set to null.
+
+Move Forward: After updating the links, move temp to the nextNode (the node following the current one) to continue checking from there.
+
+Repeat Process: Continue this process until the end of the list, ensuring all occurrences of x are deleted.
+
+Return the Updated List: Return the head of the updated list after all deletions are completed.
+
+*/
