@@ -1,0 +1,43 @@
+public class LinkedListLoopLength {
+        static int findLength(Node slow, Node fast){
+        
+        // count to keep track of 
+        // nodes encountered in loop
+        int cnt = 1;
+        
+        // move fast by one step
+        fast = fast.next;
+        
+        // traverse fast till it 
+        // reaches back to slow
+        while(slow!=fast){
+            cnt++;
+            fast = fast.next;
+        }
+        return cnt;
+    }
+
+    static int lengthOfLoop(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            
+            slow = slow.next;  
+            fast = fast.next.next; 
+
+            if (slow == fast) {
+                return findLength(slow, fast);
+            }
+        }
+        return 0; 
+    }
+}
+
+/*
+
+Explanation:
+
+https://takeuforward.org/linked-list/length-of-loop-in-linked-list
+
+*/
