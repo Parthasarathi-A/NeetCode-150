@@ -1,0 +1,45 @@
+class Solution {
+    public ArrayList<ArrayList<Integer>> findPairsWithGivenSum(int target, Node head) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        Node current = head;
+        
+        while (current != null) {
+            int find = target - current.val;
+            
+            if (map.containsKey(find)) {
+                ArrayList<Integer> pair = new ArrayList<>();
+                pair.add(find);
+                pair.add(current.val);
+                res.add(pair);
+            }
+            
+            map.put(current.val, map.getOrDefault(current.val, 0) + 1);
+            current = current.next;
+        }
+        
+        return res;
+    }
+}
+
+
+/*
+
+Initialize Result List: Create an empty list res to store pairs of nodes that sum to the target value.
+
+Create HashMap: Use a HashMap map to store the values of the nodes as keys and their counts as values while traversing the list.
+
+Traverse the List: Use a pointer current to traverse the linked list starting from the head.
+
+Calculate Complement: For each node, calculate the complement value (target - current.val).
+
+Check HashMap: If the complement exists in the HashMap, create a pair list, add the complement and current node values to it, and append this pair to res.
+
+Store Node Value: Add the current node's value to the HashMap. If the value already exists, increment its count.
+
+Move to Next Node: Move the current pointer to the next node and repeat the process until the end of the list.
+
+Return Result: Return the list of pairs that sum up to the target value.
+
+*/
