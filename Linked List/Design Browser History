@@ -1,0 +1,60 @@
+class BrowserHistory {
+    static class ListNode {
+        String val;
+        ListNode next;
+        ListNode prev;
+        
+        ListNode(String val) {
+            this.val = val;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+
+    ListNode currentpage;
+
+    public BrowserHistory(String homepage) {
+        currentpage = new ListNode(homepage);
+    }
+    
+    public void visit(String url) {
+        ListNode newnode = new ListNode(url);
+        currentpage.next = newnode;
+        newnode.prev = currentpage;
+        currentpage = newnode;
+    }
+    
+    public String back(int steps) {
+        while (steps > 0 && currentpage.prev != null) {
+            currentpage = currentpage.prev;
+            steps--;
+        }
+        return currentpage.val;
+    }
+    
+    public String forward(int steps) {
+        while (steps > 0 && currentpage.next != null) {
+            currentpage = currentpage.next;
+            steps--;
+        }
+        return currentpage.val;
+    }
+}
+
+
+
+/*
+
+Create a Doubly Linked List where each node stores a webpage (val), a pointer to the previous page (prev), and the next page (next).
+
+Initialize the browser history with a homepage (currentpage).
+
+When visiting a new page, create a new node, link it to the current page, and update currentpage.
+
+For the back function, move left (prev) up to steps times or until no previous page exists.
+
+For the forward function, move right (next) up to steps times or until no next page exists.
+
+Return the current page URL after moving back or forward.
+
+*/
