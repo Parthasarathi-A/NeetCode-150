@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { 
+ *       this.val = val; 
+ *     }
+ *     ListNode(int val, ListNode next) { 
+ *          this.val = val; 
+ *          this.next = next; 
+ *     }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ArrayList<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < lists.length; i++) {
+            ListNode temp = lists[i];
+            while (temp != null) {
+                res.add(temp.val); // Collect all node values
+                temp = temp.next;
+            }
+        }
+
+        Collections.sort(res); // Sort the values
+
+        return convert(res); // Build new sorted linked list
+    }
+
+    private ListNode convert(ArrayList<Integer> res) {
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+
+        for (int i = 0; i < res.size(); i++) {
+            int val = res.get(i);       // Separate variable
+            ListNode newNode = new ListNode(val);
+            curr.next = newNode;
+            curr = curr.next;
+        }
+
+        return dummy.next;
+    }
+}
+
+
+/*
+
+Create an empty list to hold all the values from the nodes of every linked list.
+
+Loop through each linked list one by one:
+
+For each linked list, start from the first node.
+
+Keep moving to the next node until the end.
+
+Add each node’s value to the list you created in step 1.
+
+Sort the list of values you collected. This step ensures all the values from different lists are in ascending order.
+
+Now, convert the sorted values back into a new linked list:
+
+Start by creating a dummy node (this acts as a placeholder).
+
+For each value in the sorted list:
+
+Create a new node with that value.
+
+Connect it to the end of the linked list you're building.
+
+Keep a pointer (curr) that always points to the last node in the new list so you can add the next node easily.
+
+Return the new linked list, starting from the node after the dummy node (since dummy was just a placeholder and doesn’t store actual data).
+
+*/
