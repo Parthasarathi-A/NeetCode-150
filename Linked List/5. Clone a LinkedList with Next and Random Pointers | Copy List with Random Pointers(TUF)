@@ -1,0 +1,111 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+public class Main {
+    public static Node cloneLL(Node head) {
+        
+        Node temp = head;
+        HashMap<Node, Node> map = new HashMap<>();
+
+        // Step 1: Create copies of each node and store them in the map
+        while (temp != null) {
+            // Create a new node with the same data as the original node
+            Node newNode = new Node(temp.data);
+            // Map the original node to its corresponding copied node in the map
+            map.put(temp, newNode);
+            // Move to the next node in the original list
+            temp = temp.next;
+        }
+
+        temp = head;
+        while (temp != null) {
+            // Access the copied node corresponding to the current original node
+            Node copyNode = map.get(temp);
+            // Set the next pointer of the copied node to the copied node mapped to the next node in the original list
+            copyNode.next = map.get(temp.next);
+            // Set the random pointer of the copied node to the copied node mapped to the random node in the original list
+            copyNode.random = map.get(temp.random);
+            // Move to the next node in the original list
+            temp = temp.next;
+        }
+
+        // Return the head of the deep copied list from the map
+        return map.get(head);
+    }
+}
+                                
+
+
+/*
+
+✅ Goal:
+We are given a special linked list, where each node contains:
+
+data: a value like 1, 2, etc.
+
+next: a pointer to the next node in the list.
+
+random: a pointer to any random node in the list (can be forward or backward or null).
+
+Our task is to create a deep copy (a clone) of the entire linked list, including the correct next and random links.
+
+🪜 Step-by-step approach:
+🔹 Step 1: Understand what "deep copy" means
+We need to create new nodes for each node in the original list, and ensure the new nodes are connected in the same way as the original list — both for next and random.
+
+We should not link the new list to any node in the original list.
+
+🔹 Step 2: Create a map to store original and copy nodes
+We use a HashMap (like a dictionary) to keep track of each original node and its corresponding newly created copy node.
+
+This helps us later to set up the correct connections between the copy nodes.
+
+🔹 Step 3: First traversal – create copy nodes
+We start with the original list's head and:
+
+Create a new node with the same data.
+
+Store this in the map as: map.put(originalNode, copiedNode).
+
+Move to the next node and repeat.
+
+At the end of this step, we have created a copy for each node, but haven’t yet connected them with next or random.
+
+🔹 Step 4: Second traversal – set next and random links
+Again, we go through the original list:
+
+For every original node, get its corresponding copy node from the map.
+
+Set:
+
+copiedNode.next = map.get(originalNode.next)
+
+copiedNode.random = map.get(originalNode.random)
+
+This way, we ensure that each copied node has the correct links, by using the map to find the corresponding copies.
+
+🔹 Step 5: Return the copied head
+We return the head of the copied list, which is map.get(originalHead).
+
+📘 Summary:
+Use a map to store original node → copied node mapping.
+
+Traverse once to create all copied nodes (with only data).
+
+Traverse again to assign the correct next and random links.
+
+Return the copied head node from the map.
+
+*/
