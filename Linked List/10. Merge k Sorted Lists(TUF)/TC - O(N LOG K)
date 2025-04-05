@@ -1,0 +1,91 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        // Min-heap based on ListNode's val
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(
+            (a, b) -> a.val - b.val
+        );
+
+        // Step 1: Push the head of each list into the heap
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                pq.add(lists[i]);
+            }
+        }
+
+        // Dummy node to build the merged list
+        ListNode dummyNode = new ListNode(-1);
+        ListNode temp = dummyNode;
+
+        // Step 2: Process the heap
+        while (!pq.isEmpty()) {
+            ListNode curr = pq.poll();     // Get node with smallest val
+            temp.next = curr;              // Attach to result list
+            temp = temp.next;
+
+            if (curr.next != null) {
+                pq.add(curr.next);         // Push the next node of the list
+            }
+        }
+
+        return dummyNode.next;
+    }
+}
+
+
+/*
+
+Understand the Problem:
+You are given multiple sorted linked lists. Your task is to merge them all into one sorted linked list.
+
+Why Use a Min-Heap (PriorityQueue)?
+Since each list is already sorted, you can efficiently pick the smallest value among the list heads using a min-heap, which always keeps the smallest element on top.
+
+Initialize a Min-Heap (PriorityQueue):
+
+java
+Copy
+Edit
+PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+🧠 This line creates a priority queue that compares ListNode objects using their val field.
+
+💡 It does not sort everything manually; instead, it ensures the smallest node is always on top.
+
+🧺 Think of it like a magic container that automatically keeps the smallest node ready to pick (poll()).
+
+Insert the First Node of Each List:
+
+Go through each input linked list.
+
+If the list is not empty, add its head node to the priority queue.
+
+Now the priority queue holds the first node of each list, sorted by value internally.
+
+Build the Merged List:
+
+Create a dummy node to help build the final merged list.
+
+While the heap is not empty:
+
+Remove the node with the smallest value using poll().
+
+Add it to the result list.
+
+If the removed node has a .next, push that into the heap — because that list may still have more sorted nodes.
+
+Repeat until the heap is empty.
+
+Return the Result:
+
+The merged list starts from dummy.next.
+
+*/
