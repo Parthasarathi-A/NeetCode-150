@@ -1,0 +1,142 @@
+public class LRUCache {
+    private static class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private final int capacity;
+    private final HashMap<Integer, Node> map;
+    private final Node head;
+    private final Node tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if (!map.containsKey(key)) {
+            return -1;
+        }
+        Node node = map.get(key);
+        remove(node);
+        insertAtHead(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.value = value;
+            remove(node);
+            insertAtHead(node);
+        } else {
+            if (map.size() == capacity) {
+                map.remove(tail.prev.key);
+                remove(tail.prev);
+            }
+            Node newNode = new Node(key, value);
+            map.put(key, newNode);
+            insertAtHead(newNode);
+        }
+    }
+
+    private void remove(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void insertAtHead(Node node) {
+        node.next = head.next;
+        node.next.prev = node;
+        head.next = node;
+        node.prev = head;
+    }
+}
+
+
+/*
+
+🧠 Problem Statement (in simple words):
+You are asked to design a data structure that works like a real-world cache, where:
+
+If a requested item is present, return it (cache hit).
+
+If it is not present, return -1 (cache miss).
+
+When inserting a new item and the cache is full, remove the least recently used item to make space.
+
+This is known as the LRU (Least Recently Used) Cache.
+
+✅ Requirements:
+The cache must operate in O(1) time complexity for both get() and put() operations.
+
+We need to remember the order in which items are used.
+
+🔧 How You Solved It (Your Approach):
+1. Tools You Used:
+HashMap – for fast access to the values using keys.
+
+Doubly Linked List – for tracking the order of recently used items.
+
+Items at the front (head) are the most recently used.
+
+Items at the back (tail) are the least recently used.
+
+🔄 How the Operations Work:
+1. get(key) – Fetch a value:
+Check if the key is in the HashMap.
+
+If not present, return -1.
+
+If present, move the node to the front of the list (mark as recently used), and return the value.
+
+2. put(key, value) – Insert or update a value:
+If the key already exists:
+
+Update its value.
+
+Move it to the front of the list.
+
+If the key does not exist:
+
+If the cache is full, remove the last node from the list (least recently used).
+
+Then insert the new node at the front.
+
+🔩 Helper Functions You Wrote:
+🧹 remove(Node node):
+Disconnects a node from its current position in the list.
+
+🪝 insertAtHead(Node node):
+Inserts the node just after the head, making it the most recently used.
+
+💡 Why This Works:
+HashMap gives O(1) time lookup by key.
+
+Doubly Linked List lets you add/remove nodes in O(1) time.
+
+Combined, they let you implement LRU efficiently.
+
+🧾 Simple Example:
+
+
+LRUCache cache = new LRUCache(2);
+cache.put(1, 1); // cache: {1=1}
+cache.put(2, 2); // cache: {2=2, 1=1}
+cache.get(1);    // returns 1, cache becomes: {1=1, 2=2}
+cache.put(3, 3); // removes key 2, cache: {3=3, 1=1}
+cache.get(2);    // returns -1 (not found)
+
+*/
