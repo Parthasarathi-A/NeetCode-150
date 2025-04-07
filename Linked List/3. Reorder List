@@ -1,0 +1,148 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) return;
+
+        // Step 1: Find the middle node
+        ListNode mid = findMiddle(head);
+
+        // Step 2: Reverse the second half of the list
+        ListNode secondHalf = reverseList(mid.next);
+        mid.next = null; // Split the list into two halves
+
+        // Step 3: Merge the two halves
+        mergeLists(head, secondHalf);
+    }
+
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head, fast = head;
+
+        while (fast != null && fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head, nextNode;
+
+        while (curr != null) {
+            nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        return prev;
+    }
+
+    private void mergeLists(ListNode l1, ListNode l2) {
+        ListNode temp1, temp2;
+
+        while (l2 != null) {
+            temp1 = l1.next;
+            temp2 = l2.next;
+
+            l1.next = l2;
+            l2.next = temp1;
+
+            l1 = temp1;
+            l2 = temp2;
+        }
+    }
+}
+
+
+
+/*
+
+✅ Problem: Reorder a Linked List
+Given a singly linked list L0 → L1 → … → Ln-1 → Ln,
+we need to reorder it to:
+L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
+
+💡 Key Observations:
+We're essentially pulling elements from both ends of the list and placing them one after the other.
+
+We cannot use extra space, so we have to rearrange the nodes in-place (without using arrays or new nodes).
+
+🔍 Step-by-Step Approach (In Super Simple Words):
+✅ Step 1: Find the middle of the list
+Use the slow and fast pointer approach.
+
+The idea is: slow moves 1 step at a time, fast moves 2 steps.
+
+So when fast reaches the end, slow will be at the middle of the list.
+
+This helps us split the list into two halves.
+
+ListNode mid = findMiddle(head);
+
+✅ Step 2: Reverse the second half of the list
+Take the second half of the list (starting from mid.next) and reverse it.
+
+Now the end of the original list becomes the start of the second list.
+
+Why? Because we want to start picking values from the end now.
+
+ListNode secondHalf = reverseList(mid.next);
+mid.next = null; // Break the first half from the second
+
+✅ Step 3: Merge the two halves together
+Now, alternate nodes from the two halves:
+
+First from the first half
+
+Then from the reversed second half
+
+Repeat until all nodes are merged.
+
+This gives the desired order: L0 → Ln → L1 → Ln-1 → ...
+
+mergeLists(head, secondHalf);
+
+✅ What each helper function does:
+
+🔹 findMiddle(head)
+Returns the middle node of the linked list using slow and fast pointers.
+
+Example: For 1 → 2 → 3 → 4 → 5, it returns node 3.
+
+🔹 reverseList(head)
+Reverses the linked list from the given node.
+
+Example: For 4 → 5, it returns 5 → 4.
+
+🔹 mergeLists(l1, l2)
+Merges two lists alternatively node by node.
+
+Takes one node from l1, then one from l2, and so on.
+
+Example: Merges 1 → 2 → 3 and 5 → 4 into 1 → 5 → 2 → 4 → 3.
+
+⏱️ Time Complexity:
+O(n) for finding middle
+
+O(n) for reversing second half
+
+O(n) for merging
+
+So overall: O(n)
+
+🧠 Space Complexity:
+No extra data structures used
+
+So: O(1) (constant space, in-place)
+
+*/
