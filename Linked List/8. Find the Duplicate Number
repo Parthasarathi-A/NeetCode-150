@@ -1,0 +1,103 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        // Initialize the slow and fast pointers
+        int slow = nums[0];
+        int fast = nums[nums[0]];
+        
+        // Find the intersection point of the two runners
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        
+        // Find the "entrance" to the cycle
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        
+        return slow;
+    }
+}
+
+
+/*
+
+✅ Problem Summary
+You are given an array of n+1 integers, where each integer is in the range 1 to n.
+There is exactly one number that is repeated, but it may appear more than once.
+
+Goal: Find that duplicate number using
+
+🕒 Linear time O(n)
+
+💾 Constant space O(1)
+
+❌ Without modifying the input array
+
+🧠 High-Level Idea
+Even though we are given an array, we treat it like a linked list.
+
+Each value in the array is treated as a pointer to the next index — just like how nodes in a linked list point to the next node.
+
+Because there's a duplicate, it means two indices will point to the same index, creating a cycle in the virtual linked list.
+
+To find that cycle and its starting point (the duplicate), we use Floyd’s Tortoise and Hare algorithm, which is used to detect cycles in linked lists.
+
+🪜 Step-by-Step Approach
+Step 1: Initialize pointers
+
+int slow = nums[0];
+int fast = nums[nums[0]];
+slow moves one step at a time
+
+fast moves two steps at a time
+
+These are like two runners in a race — one slow, one fast.
+
+Step 2: Find the intersection point inside the cycle
+
+while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+}
+We keep moving both pointers until they meet.
+
+This confirms that there's a cycle, caused by the duplicate number.
+
+Step 3: Find the entrance of the cycle (which is the duplicate)
+
+slow = 0;
+while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+}
+We reset one pointer (slow) to the start of the array.
+
+Now both pointers move one step at a time.
+
+They will meet again — right at the start of the cycle, which is the duplicate number.
+
+Step 4: Return the result
+
+return slow;
+slow (or fast, both are same at this point) contains the duplicate number.
+
+🧮 Time and Space Complexity
+Time Complexity: O(n)
+(Both steps take linear time — moving through the array)
+
+Space Complexity: O(1)
+(Only two pointers used — no extra memory)
+
+📌 Summary for Your Notes
+Treat array as a virtual linked list using values as pointers.
+
+Use Floyd’s Tortoise and Hare to find the cycle.
+
+Cycle entrance = duplicate number.
+
+Achieves O(n) time and O(1) space without modifying array.
+
+*/
