@@ -12,6 +12,7 @@ public class Solution {
             if(set.contains(temp2)){
                 return temp2;
             }
+            temp2=temp2.next;
         }
         return null;
     }
